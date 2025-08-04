@@ -1,0 +1,21 @@
+# Simple Video Chat Interface Requirements
+# Basic Python dependencies for the modular video processing chat interface
+
+# Required for AI-powered natural language interface
+requests>=2.31.0
+
+# Standard library modules used:
+# - os (built-in)
+# - sys (built-in) 
+# - subprocess (built-in)
+# - glob (built-in)
+# - json (built-in)
+# - datetime (built-in)
+
+# External dependencies (optional):
+# FFmpeg is required for video operations but installed separately
+
+# If you want to add more advanced features later, consider:
+# opencv-python>=4.8.0
+# pillow>=10.0.0
+# numpy>=1.24.0
