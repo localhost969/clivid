@@ -13,7 +13,7 @@ from datetime import datetime
 
 class AIVideoChatInterface:
     def __init__(self):
-        self.api_key = "5IyDOLKCzF1jtIP1P4Z9jKcix8cCQtK4"
+        self.api_key = "YOUR_MISTRAL_API_KEY_HERE"
         self.api_url = "https://api.mistral.ai/v1/chat/completions"
         
         # Conversation history
@@ -1773,4 +1773,5 @@ MULTI-STEP OPERATION DETECTION:
 
 if __name__ == "__main__":
     app = AIVideoChatInterface()
+
     app.run()
