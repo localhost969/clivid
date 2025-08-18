@@ -145,7 +145,7 @@ def extract_audio_segment(input_file, output_file, start_time, end_time=None, co
             print(f"Quality: {quality}")
         print("[*] Processing...")
         
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='ignore')
         
         if result.returncode == 0:
             print("[+] Audio segment extracted successfully!")
@@ -170,7 +170,7 @@ def extract_audio_segment(input_file, output_file, start_time, end_time=None, co
                         'ffprobe', '-v', 'quiet', '-show_entries', 'format=duration',
                         '-of', 'default=noprint_wrappers=1:nokey=1', output_file
                     ]
-                    duration_result = subprocess.run(duration_cmd, capture_output=True, text=True)
+                    duration_result = subprocess.run(duration_cmd, capture_output=True, text=True, encoding='utf-8', errors='ignore')
                     if duration_result.returncode == 0:
                         duration = float(duration_result.stdout.strip())
                         minutes, seconds = divmod(int(duration), 60)

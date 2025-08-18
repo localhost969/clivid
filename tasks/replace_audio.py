@@ -9,7 +9,7 @@ import subprocess
 
 def list_video_files():
     """List all video files in the current directory"""
-    video_extensions = ['*.mp4', '*.avi', '*.mov', '*.mkv', '*.wmv', '*.flv', '*.webm']
+    video_extensions = ['*.mp4', '*.m4v', '*.mov', '*.qt', '*.avi', '*.wmv', '*.asf', '*.mkv', '*.webm', '*.flv', '*.mpeg', '*.mpg', '*.mpe', '*.mpv', '*.m2v', '*.3gp', '*.3g2', '*.ogv', '*.vob', '*.ts', '*.m2ts', '*.mts', '*.mxf', '*.f4v', '*.dat', '*.dv', '*.dvr-ms', '*.rm', '*.rmvb', '*.ogm']
     video_files = []
     
     for extension in video_extensions:
@@ -20,7 +20,7 @@ def list_video_files():
 
 def list_audio_files():
     """List all audio files in the current directory"""
-    audio_extensions = ['*.mp3', '*.wav', '*.aac', '*.flac', '*.ogg', '*.m4a', '*.wma']
+    audio_extensions = ['*.mp3', '*.wav', '*.aac', '*.flac', '*.ogg', '*.oga', '*.m4a', '*.wma', '*.aiff', '*.aif', '*.aifc', '*.amr', '*.ape', '*.ac3', '*.eac3', '*.dts', '*.opus', '*.spx', '*.caf', '*.au', '*.snd', '*.mka']
     audio_files = []
     
     for extension in audio_extensions:
@@ -36,7 +36,8 @@ def get_video_duration(video_file):
             'ffprobe', '-v', 'quiet', '-show_entries', 'format=duration',
             '-of', 'default=noprint_wrappers=1:nokey=1', video_file
         ]
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        # Use UTF-8 to avoid UnicodeDecodeError on Windows when ffmpeg outputs non-CP1252 chars
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='ignore')
         if result.returncode == 0:
             return float(result.stdout.strip())
     except:
@@ -50,7 +51,7 @@ def get_audio_duration(audio_file):
             'ffprobe', '-v', 'quiet', '-show_entries', 'format=duration',
             '-of', 'default=noprint_wrappers=1:nokey=1', audio_file
         ]
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='ignore')
         if result.returncode == 0:
             return float(result.stdout.strip())
     except:
@@ -125,7 +126,7 @@ def replace_audio(video_file, audio_file, output_file, audio_handling='replace',
         print(f"Audio codec: {audio_codec}")
         print("[*] Processing...")
         
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='ignore')
         
         if result.returncode == 0:
             print("[+] Audio replaced successfully!")
@@ -152,7 +153,11 @@ def replace_audio(video_file, audio_file, output_file, audio_handling='replace',
                     print(f"Output duration: {format_duration(output_duration)}")
         else:
             print("[!] Error during audio replacement:")
-            print(result.stderr)
+            try:
+                print(result.stderr)
+            except Exception:
+                # fallback safe print
+                print(str(result.stderr).encode('utf-8', 'ignore').decode('utf-8', 'ignore'))
             return False
             
         return True
